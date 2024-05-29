@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+ 
+#define TAMANHO_VETOR 6
+ 
+// Função para trocar dois elementos de posição
+void trocar(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+ 
+// Função para ordenar o vetor em ordem crescente (bubble sort)
+void ordenarVetor(int vetor[], int tamanho) {
+    int i, j;
+    for (i = 0; i < tamanho-1; i++) {
+        for (j = 0; j < tamanho-i-1; j++) {
+            if (vetor[j] > vetor[j+1]) {
+                trocar(&vetor[j], &vetor[j+1]);
+            }
+        }
+    }
+}
+ 
+int main() {
+    int numeros_sorteados[TAMANHO_VETOR];
+    int i, j, numero_aleatorio;
+    int repetido;
+ 
+    // Inicializando a semente do gerador de números aleatórios
+    srand(time(NULL));
+ 
+    // Sorteando 6 números distintos
+    for (i = 0; i < TAMANHO_VETOR; i++) {
+        do {
+            numero_aleatorio = rand() % 60 + 1; // Sorteia números de 1 a 60
+            repetido = 0;
+ 
+            // Verifica se o número já foi sorteado
+            for (j = 0; j < i; j++) {
+                if (numeros_sorteados[j] == numero_aleatorio) {
+                    repetido = 1;
+                    break;
+                }
+            }
+        } while (repetido); // Se o número foi repetido, sorteia novamente
+ 
+        // Armazena o número sorteado no vetor
+        numeros_sorteados[i] = numero_aleatorio;
+    }
+ 
+    // Ordenando o vetor em ordem crescente
+    ordenarVetor(numeros_sorteados, TAMANHO_VETOR);
+ 
+    // Exibindo os números sorteados em ordem crescente
+    printf("Números sorteados em ordem crescente: ");
+    for (i = 0; i < TAMANHO_VETOR; i++) {
+        printf("%d ", numeros_sorteados[i]);
+    }
+    printf("\n");
+ 
+    return 0;
+}
